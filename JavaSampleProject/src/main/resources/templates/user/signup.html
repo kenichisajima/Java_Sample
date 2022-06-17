@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title th:text="#{label.signup}">ユーザ登録</title>
+	</head>
+	<body>
+		<h1><span th:text="#{label.signup}">ユーザ登録</span></h1>
+		<form th:action="@{/signup}" method="post">
+      		<input type="submit" name="back_btn" th:value="#{label.back}" />
+      		<input type="submit" name="conf_btn" th:value="#{label.conf}" />
+    	</form>
+	</body>
+</html>
