@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title th:text="#{label.userInfoEdit}">ユーザ情報編集</title>
+	</head>
+	<body>
+		<h1><span th:text="#{label.userInfoEdit}">ユーザ情報編集</span></h1>
+		<form th:action="@{/userInfoEdit}" method="post">
+			<input type="submit" name="edit_btn" th:value="#{label.edit}" />
+      		<input type="submit" name="menu_btn" th:value="#{label.menu}" />
+    	</form>
+	</body>
+</html>

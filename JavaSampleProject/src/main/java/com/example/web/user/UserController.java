@@ -43,7 +43,7 @@ public class UserController {
 		return "redirect:/signupConf?finish";
 	}
 
-	// 新規ユーザ登録確認画面の登録ボタンが押下された時の処理メソッドのリダイレクト処理メソッド
+	// 新規ユーザ登録確認画面の登録ボタンが押下された時の処理メソッドのリダイレクト後の処理メソッド
 	@RequestMapping(value = "/signupConf", params = "finish", method = RequestMethod.GET)
 	public String redirectSignup() {
 		return "user/signupFin";
@@ -56,9 +56,51 @@ public class UserController {
 		return "user/signup";
 	}
 
-	// 新規ユーザ登録完了画面のメニューボタンが押下された時
+	// 新規ユーザ登録完了画面のメニューボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/signupFin", params = "menu_btn", method = RequestMethod.POST)
 	public String toMenuPage() {
+		return "user/menu";
+	}
+
+	// メニュー画面の購入者メニューボタンが押下された時の処理メソッド
+	@RequestMapping(value = "/menu", params = "buyer_btn", method = RequestMethod.POST)
+	public String toBuyerPage() {
+		return "forward:/buyerPage";
+	}
+
+	// メニューボタンの販売者メニューボタンが押下された時の処理メソッド
+	@RequestMapping(value = "/menu", params = "seller_btn", method = RequestMethod.POST)
+	public String toSellerPage() {
+		return "forward:/sellerPage";
+	}
+
+	// メニューボタンのユーザ情報編集ボタンが押下された時の処理メソッド
+	@RequestMapping(value = "/menu", params = "userInfoEdit_btn", method = RequestMethod.POST)
+	public String toUserInfoEditPage() {
+		return "user/userInfoEdit";
+	}
+
+	// メニューボタンのログアウトボタンが押下された時の処理メソッド
+	@RequestMapping(value = "/menu", params = "logout_btn", method = RequestMethod.POST)
+	public String logout() {
+		return "user/login";
+	}
+
+	// ユーザ情報編集画面の変更するボタンが押下された時の処理メソッド
+	@RequestMapping(value = "/userInfoEdit", params = "edit_btn", method = RequestMethod.POST)
+	public String userInfoEdit() {
+		return "redirect:/userInfoEdit?finish";
+	}
+
+	// ユーザ情報編集画面の変更するボタンが押下された時の処理メソッドのリダイレクト後の処理メソッド
+	@RequestMapping(value = "/userInfoEdit", params = "finish", method = RequestMethod.GET)
+	public String redirectUserInfoEdit() {
+		return "user/userInfoEdit";
+	}
+
+	// ユーザ情報編集画面のメニューボタンが押下された時の処理メソッド
+	@RequestMapping(value = "/userInfoEdit", params = "menu_btn", method = RequestMethod.POST)
+	public String backToMenuPage() {
 		return "user/menu";
 	}
 }

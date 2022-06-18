@@ -6,5 +6,11 @@
 	</head>
 	<body>
 		<h1><span th:text="#{label.menu}">メニュー</span></h1>
+		<form th:action="@{/menu}" method="post">
+			<input type="submit" name="userInfoEdit_btn" th:value="#{label.userInfoEdit}" />
+      		<input type="submit" name="buyer_btn" th:value="#{label.buyerMenu}" />
+      		<input type="submit" name="seller_btn" th:value="#{label.sellerMenu}" />
+      		<input type="submit" name="logout_btn" th:value="#{label.logout}" />
+    	</form>
 	</body>
 </html>

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title th:text="#{label.reserveListConf}">予約状況確認一覧</title>
+	</head>
+	<body>
+		<h1><span th:text="#{label.reserveListConf}">予約状況確認一覧</span></h1>
+		<form th:action="@{/reserveListPage}" method="post">
+      		<input type="submit" name="back_btn" th:value="#{label.back}" />
+    	</form>
+	</body>
+</html>

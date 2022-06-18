@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title th:text="#{label.buyerMenu}">購入者メニュー</title>
+	</head>
+	<body>
+		<h1><span th:text="#{label.buyerMenu}">購入者メニュー</span></h1>
+		<form th:action="@{/buyer}" method="post">
+			<input type="submit" name="backMenu_btn" th:value="#{label.backMenu}" />
+			<input type="submit" name="reserveListConf_btn" th:value="#{label.reserveConf}" />
+      		<input type="submit" name="reserve_btn" th:value="#{label.reserve}" />
+    	</form>
+	</body>
+</html>
