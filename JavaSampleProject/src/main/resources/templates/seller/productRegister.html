@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title th:text="#{label.productRegister}">商品登録</title>
+	</head>
+	<body>
+		<h1><span th:text="#{label.productRegister}">商品登録</span></h1>
+		<form th:action="@{/productRegister}" method="post">
+			<input type="submit" name="back_btn" th:value="#{label.back}" />
+			<input type="submit" name="register_btn" th:value="#{label.reg}" />
+    	</form>
+	</body>
+</html>

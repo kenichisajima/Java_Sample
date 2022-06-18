@@ -6,5 +6,10 @@
 	</head>
 	<body>
 		<h1><span th:text="#{label.sellerMenu}">販売者メニュー</span></h1>
+		<form th:action="@{/seller}" method="post">
+			<input type="submit" name="backMenu_btn" th:value="#{label.backMenu}" />
+			<input type="submit" name="productRegister_btn" th:value="#{label.productRegister}" />
+			<input type="submit" name="productEdit_btn" th:value="#{label.productEdit}" />
+    	</form>
 	</body>
 </html>
