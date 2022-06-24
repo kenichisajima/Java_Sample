@@ -1,11 +1,33 @@
 package com.example.web.user;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.domain.LoginUserInfo;
+import com.example.service.DBAccessService;
+import com.example.sessionBean.UserInfoSessionBean;
+
+
 @Controller
 public class UserController {
+
+	@Autowired
+	private UserInfoSessionBean userInfoSessionBean;
+
+	@Autowired
+	private DBAccessService dbAccessService;
+
+	@ModelAttribute("loginUserInfoForm")
+	public LoginUserInfoForm setLoginUserInfoForm() {
+		return new LoginUserInfoForm();
+	}
+
 
 	// ログイン画面へアクセスがあった場合の処理メソッド
 	@RequestMapping("/")
@@ -15,7 +37,24 @@ public class UserController {
 
 	// ログイン画面のログインボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/login", params = "login_btn", method = RequestMethod.POST)
-	public String login() {
+	public String login(@Validated LoginUserInfoForm form, BindingResult result) {
+
+		LoginUserInfo  loginUserInfo = new LoginUserInfo();
+		BeanUtils.copyProperties(form, loginUserInfo);
+
+		if(result.hasErrors()) {
+			return "user/login";
+		} else {
+			if(!dbAccessService.loginCheck(loginUserInfo)) {
+				result.reject("errors.thereIsNotAccount");
+			}
+
+			if(result.hasErrors()) {
+				return "user/login";
+			}
+		}
+
+		userInfoSessionBean.setUserID(dbAccessService.getLoginUserID(loginUserInfo));
 		return "user/menu";
 	}
 

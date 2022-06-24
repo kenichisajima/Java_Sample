@@ -6,7 +6,18 @@
 	</head>
 	<body>
 		<h1><span th:text="#{label.login}">ログイン</span></h1>
-		<form th:action="@{/login}" method="post">
+		<form th:action="@{/login}" th:object="${loginUserInfoForm}" method="post">
+			<p th:errors="*{all}" ></p>
+			<table>
+				<tr>
+					<td><span th:text="#{label.loginID}"></span></td>
+					<td><input type="text" th:field="*{loginID}" /></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{label.password}"></span></td>
+					<td><input type="password" th:field="*{password}" /></td>
+				</tr>
+			</table>
       		<input type="submit" name="login_btn" th:value="#{label.login}" />
       		<input type="submit" name="signup_btn" th:value="#{label.signup}" />
     	</form>
