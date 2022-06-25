@@ -8,10 +8,11 @@
 		<h1><span th:text="#{label.sellerMenu}">販売者メニュー</span></h1>
 		<form th:action="@{/seller}" method="post">
 			<div th:unless="${productInfoList} and ${productInfoList.size()} > 0"><span th:text="#{label.noProduct}"></span></div>
+			<input type="submit" name="backMenu_btn" th:value="#{label.backMenu}" />
 			<div th:if="${productInfoList} and ${productInfoList.size()} > 0">
-				<table>
+				<table border="1">
 					<tr>
-						<th><span th:text="#{label.id}"></span></th>
+						<th></th>
 						<th><span th:text="#{label.productName}"></span></th>
 						<th><span th:text="#{label.stock}"></span></th>
 						<th><span th:text="#{label.reserve}"></span></th>
@@ -25,8 +26,8 @@
 						<td><span th:text="${productInfoView.stock} - ${productInfoView.reserve}"></span></td>
 					</tr>
 				</table>
+				<input type="radio" name="id"value="0" checked="checked" style="display:none;" />
 			</div>
-			<input type="submit" name="backMenu_btn" th:value="#{label.backMenu}" />
 			<input type="submit" name="productRegister_btn" th:value="#{label.productRegister}" />
 			<input type="submit" name="productEdit_btn" th:value="#{label.productEdit}" />
     	</form>

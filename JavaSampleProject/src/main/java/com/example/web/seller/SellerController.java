@@ -14,6 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.ProductInfo;
@@ -21,6 +24,7 @@ import com.example.service.DBAccessService;
 import com.example.sessionBean.UserInfoSessionBean;
 
 @Controller
+@SessionAttributes({"editProductForm"})
 public class SellerController {
 
 	@Autowired
@@ -37,6 +41,10 @@ public class SellerController {
 		return new RegisterProductForm();
 	}
 
+	@ModelAttribute("editProductForm")
+	public EditProductForm setEditProductForm() {
+		return new EditProductForm();
+	}
 
 	// メニュー画面の購入者メニューボタンが押下された時の処理メソッドのフォワード後の処理メソッド
 	@RequestMapping(value = "/sellerPage")
@@ -68,7 +76,21 @@ public class SellerController {
 
 	// 販売者メニュー画面の商品編集ボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/seller", params = "productEdit_btn", method = RequestMethod.POST)
-	public String toProductEditPage() {
+	public String toProductEditPage(@RequestParam("id") int id, Model model) {
+
+		if(id == 0) {
+			return "forward:/sellerPage";
+		}
+
+		EditProductForm editProductForm = new EditProductForm();
+		ProductInfo productInfo = dbAccessService.getProductInfoWithProductID(id);
+		BeanUtils.copyProperties(productInfo, editProductForm);
+
+		int reserveCount = dbAccessService.countReserve(id);
+		editProductForm.setReserve(reserveCount);
+
+		model.addAttribute("editProductForm", editProductForm);
+
 		return "seller/productEdit";
 	}
 
@@ -126,19 +148,54 @@ public class SellerController {
 
 	// 商品編集画面の確定ボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/productEdit", params = "fix_btn", method = RequestMethod.POST)
-	public String productEdit() {
+	public String productEdit(@Validated EditProductForm form, BindingResult result, RedirectAttributes redirectAttributes, Locale locale, Model model) {
+
+		if (result.hasErrors()) {
+			return "seller/productEdit";
+		}
+
+		if(form.getStock() < form.getReserve()) {
+			result.reject("errors.underReserve");
+			return "seller/productEdit";
+		}
+
+		ProductInfo productInfo = new ProductInfo();
+		BeanUtils.copyProperties(form, productInfo);
+		dbAccessService.updateProductInfo(productInfo);
+
+		redirectAttributes.addFlashAttribute("editProductMessage", messageSource.getMessage("message.registerProduct", null, locale));
 		return "redirect:/productEdit?finish";
 	}
 
 	// 商品編集画面の確定ボタンが押下された時の処理メソッドのリダイレクト後の処理メソッド
 	@RequestMapping(value = "/productEdit", params = "finish", method = RequestMethod.GET)
 	public String redirectProductEdit() {
+
 		return "seller/productEdit";
 	}
 
 	// 商品編集画面の戻るボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/productEdit", params = "back_btn", method = RequestMethod.POST)
-	public String backToSellerMenuFromProductEdit() {
+	public String backToSellerMenuFromProductEdit(Model model, SessionStatus sessionStatus) {
+
+		sessionStatus.setComplete();
+
+		List<ProductInfo> productInfoList = dbAccessService.getProductInfoWithLoginUserID(userInfoSessionBean.getUserID());
+
+		List<ProductInfoListView> productInfoListViews = new ArrayList<>();
+		for(ProductInfo productInfo : productInfoList) {
+			ProductInfoListView productInfoListView = new ProductInfoListView();
+			BeanUtils.copyProperties(productInfo, productInfoListView);
+
+			int reserveCount = dbAccessService.countReserve(productInfo.getId());
+			productInfoListView.setReserve(reserveCount);
+
+
+			productInfoListViews.add(productInfoListView);
+		}
+
+		model.addAttribute("productInfoList", productInfoListViews);
+
 		return "seller/sellerPage";
 	}
 

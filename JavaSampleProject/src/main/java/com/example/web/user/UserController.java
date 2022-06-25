@@ -24,7 +24,7 @@ import com.example.sessionBean.UserInfoSessionBean;
 import com.example.util.ErrorCheck;
 
 @Controller
-@SessionAttributes({ "signupUserInfoForm" })
+@SessionAttributes({"signupUserInfoForm"})
 public class UserController {
 
 	@Autowired

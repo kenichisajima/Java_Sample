@@ -30,4 +30,24 @@
 			(#{userID}, #{name}, #{stock}, #{remarks})
 	</insert>
 
+	<select id="getProductInfoWithProductID" resultType="com.example.domain.ProductInfo">
+		SELECT
+			*
+		FROM
+			product
+		WHERE
+			id = #{id}
+	</select>
+
+	<update id="updateProductInfo">
+		UPDATE
+			product
+		SET
+			name = #{name},
+			stock = #{stock},
+			remarks = #{remarks}
+		WHERE
+			id = #{id}
+	</update>
+
 </mapper>

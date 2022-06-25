@@ -124,4 +124,21 @@ public class DBAccessService {
 		productManageMapper.registerProduct(productInfo);
 	}
 
+	/**
+	 * 商品IDが一致する商品情報を取得するメソッド
+	 * @param id 検索する商品ID
+	 * @return 商品情報が格納されたBean
+	 */
+	public ProductInfo getProductInfoWithProductID(int id) {
+		return productManageMapper.getProductInfoWithProductID(id);
+	}
+
+	/**
+	 * 商品IDが一致する商品情報を更新するメソッド
+	 * @param productInfo 変更する商品情報が格納されたBean
+	 */
+	public void updateProductInfo(ProductInfo productInfo) {
+		productManageMapper.updateProductInfo(productInfo);
+	}
+
 }
