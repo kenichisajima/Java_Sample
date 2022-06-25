@@ -7,6 +7,17 @@
 	<body>
 		<h1><span th:text="#{label.reserveListConf}">予約状況確認一覧</span></h1>
 		<form th:action="@{/reserveListPage}" method="post">
+			<div th:unless="${productInfoList} and ${productInfoList.size()} > 0"><span th:text="#{label.noReserveProduct}"></span></div>
+			<div th:if="${productInfoList} and ${productInfoList.size()} > 0">
+				<table border="1">
+					<tr>
+						<th><span th:text="#{label.productName}"></span></th>
+					</tr>
+					<tr th:each="productInfoView : ${productInfoList}">
+						<td><span th:text="${productInfoView.name}"></span></td>
+					</tr>
+				</table>
+			</div>
       		<input type="submit" name="back_btn" th:value="#{label.back}" />
     	</form>
 	</body>

@@ -1,4 +1,4 @@
-package com.example.web.seller;
+package com.example.util;
 
 public class ProductInfoListView {
 

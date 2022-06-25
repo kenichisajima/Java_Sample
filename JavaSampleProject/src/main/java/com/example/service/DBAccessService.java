@@ -141,4 +141,44 @@ public class DBAccessService {
 		productManageMapper.updateProductInfo(productInfo);
 	}
 
+	/**
+	 * ログインユーザの登録している商品の一覧を取得するメソッド
+	 * @param userID ログインユーザのID
+	 * @return ログインユーザの登録している商品情報が格納されているBean
+	 */
+	public List<ProductInfo> getProductInfoWithoutLoginUserID(int userID) {
+		return productManageMapper.getProductInfoWithoutLoginUserID(userID);
+	}
+
+	/**
+	 * 予約している商品情報を取得するメソッド
+	 * @param userID ログインしているユーザーのID
+	 * @return 予約している商品情報が格納されているBean
+	 */
+	public List<ProductInfo> getReserveProductList(int userID) {
+		return productManageMapper.getReserveProductList(userID);
+	}
+
+	/**
+	 * 予約しようとしている商品がすでに予約しているか確認するメソッド
+	 */
+	public boolean checkReserve(int userID, int productID) {
+		int count = productManageMapper.checkReserve(userID, productID);
+
+		if(count == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * 予約情報を登録するメソッド
+	 * @param userID ログインユーザのID
+	 * @param productID 登録する商品のID
+	 */
+	public void reserveProduct(int userID, int productID) {
+		productManageMapper.reserveProduct(userID, productID);
+	}
+
 }

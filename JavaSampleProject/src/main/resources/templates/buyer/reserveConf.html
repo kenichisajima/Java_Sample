@@ -6,7 +6,13 @@
 	</head>
 	<body>
 		<h1><span th:text="#{label.reserveConf}">予約確認</span></h1>
-		<form th:action="@{/reserveConf}" method="post">
+		<form th:action="@{/reserveConf}" th:object="${reserveProductForm}" method="post">
+			<table border="1">
+				<tr>
+					<td><span th:text="#{label.productName}"></span></td>
+					<td><span th:text="*{name}"></span></td>
+				</tr>
+			</table>
 			<input type="submit" name="reserve_btn" th:value="#{label.reserve}" />
       		<input type="submit" name="back_btn" th:value="#{label.back}" />
     	</form>

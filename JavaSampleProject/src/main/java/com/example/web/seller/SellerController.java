@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.domain.ProductInfo;
 import com.example.service.DBAccessService;
 import com.example.sessionBean.UserInfoSessionBean;
+import com.example.util.ProductInfoListView;
 
 @Controller
 @SessionAttributes({"editProductForm"})

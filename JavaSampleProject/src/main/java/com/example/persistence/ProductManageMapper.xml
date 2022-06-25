@@ -14,6 +14,15 @@
 			user_id = #{userID}
 	</select>
 
+	<select id="getProductInfoWithoutLoginUserID" resultType="com.example.domain.ProductInfo">
+		SELECT
+			*
+		FROM
+			product
+		WHERE
+			user_id != #{userID}
+	</select>
+
 	<select id="countReserve" resultType="int">
 		SELECT
 			COUNT(*)
@@ -49,5 +58,36 @@
 		WHERE
 			id = #{id}
 	</update>
+
+	<select id="getReserveProductList" resultType="com.example.domain.ProductInfo">
+		SELECT
+			product.id, product.name, product.remarks
+		FROM
+			reserve
+		LEFT JOIN
+			product
+		ON
+			reserve.product_id = product.id
+		WHERE
+			reserve.user_id = #{userID}
+	</select>
+
+	<select id="checkReserve" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			reserve
+		WHERE
+			user_id = #{userID}
+		AND
+			product_id = #{productID}
+	</select>
+
+	<insert id="reserveProduct">
+		INSERT INTO
+			reserve (user_id, product_id)
+		VALUES
+			(#{userID}, #{productID})
+	</insert>
 
 </mapper>
