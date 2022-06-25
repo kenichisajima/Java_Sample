@@ -25,4 +25,20 @@
     	AND
     		password = #{password}
     </select>
+
+    <select id="signupCheckLoginID" resultType="int">
+    	SELECT
+    		COUNT(*)
+    	FROM
+    		user
+    	WHERE
+    		login_id = #{loginID}
+    </select>
+
+	<insert id="signup">
+		INSERT INTO
+			user (login_id, password)
+		VALUES
+			(#{loginID}, #{password})
+	</insert>
 </mapper>

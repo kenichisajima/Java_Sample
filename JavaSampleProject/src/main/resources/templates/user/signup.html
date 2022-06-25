@@ -6,7 +6,22 @@
 	</head>
 	<body>
 		<h1><span th:text="#{label.signup}">ユーザ登録</span></h1>
-		<form th:action="@{/signup}" method="post">
+		<form th:action="@{/signup}" th:object="${signupUserInfoForm}" method="post">
+			<p th:errors="*{all}" ></p>
+			<table>
+				<tr>
+					<td><span th:text="#{label.loginID}"></span></td>
+					<td><input type="text" th:field="*{loginID}" /></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{label.password}"></span></td>
+					<td><input type="password" th:field="*{password}" maxlength="10"/></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{label.confPassword}"></span></td>
+					<td><input type="password" th:field="*{confPassword}" maxlength="10"/></td>
+				</tr>
+			</table>
       		<input type="submit" name="back_btn" th:value="#{label.back}" />
       		<input type="submit" name="conf_btn" th:value="#{label.conf}" />
     	</form>

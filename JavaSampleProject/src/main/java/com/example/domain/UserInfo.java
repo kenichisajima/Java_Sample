@@ -1,6 +1,6 @@
 package com.example.domain;
 
-public class LoginUserInfo {
+public class UserInfo {
 
 	private String loginID;
 	private String password;

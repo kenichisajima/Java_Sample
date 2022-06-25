@@ -6,7 +6,17 @@
 	</head>
 	<body>
 		<h1><span th:text="#{label.signupConf}">ユーザ登録確認</span></h1>
-		<form th:action="@{/signupConf}" method="post">
+		<form th:action="@{/signupConf}" th:object="${signupUserInfoForm}" method="post">
+			<table>
+				<tr>
+					<td><span th:text="#{label.loginID}"></span></td>
+					<td><span th:text="*{loginID}"></span></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{label.password}"></span></td>
+					<td><span th:text="*{password}"></span></td>
+				</tr>
+			</table>
       		<input type="submit" name="back_btn" th:value="#{label.back}" />
       		<input type="submit" name="reg_btn" th:value="#{label.reg}" />
     	</form>

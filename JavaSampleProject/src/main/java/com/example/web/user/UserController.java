@@ -8,13 +8,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
-import com.example.domain.LoginUserInfo;
+import com.example.domain.UserInfo;
 import com.example.service.DBAccessService;
 import com.example.sessionBean.UserInfoSessionBean;
+import com.example.util.ErrorCheck;
 
 
 @Controller
+@SessionAttributes({"signupUserInfoForm"})
 public class UserController {
 
 	@Autowired
@@ -28,6 +32,11 @@ public class UserController {
 		return new LoginUserInfoForm();
 	}
 
+	@ModelAttribute("signupUserInfoForm")
+	public SignupUserInfoForm setSignupUserInfoForm() {
+		return new SignupUserInfoForm();
+	}
+
 
 	// ログイン画面へアクセスがあった場合の処理メソッド
 	@RequestMapping("/")
@@ -39,7 +48,7 @@ public class UserController {
 	@RequestMapping(value = "/login", params = "login_btn", method = RequestMethod.POST)
 	public String login(@Validated LoginUserInfoForm form, BindingResult result) {
 
-		LoginUserInfo  loginUserInfo = new LoginUserInfo();
+		UserInfo  loginUserInfo = new UserInfo();
 		BeanUtils.copyProperties(form, loginUserInfo);
 
 		if(result.hasErrors()) {
@@ -66,19 +75,42 @@ public class UserController {
 
 	// 新規ユーザ登録画面の確認ボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/signup", params = "conf_btn", method = RequestMethod.POST)
-	public String toSingupConf() {
+	public String toSingupConf(@Validated SignupUserInfoForm form, BindingResult result) {
+
+		if(!ErrorCheck.isEquals(form.getPassword(), form.getConfPassword())) {
+			result.reject("errors.isNotEqualsPassword");
+		}
+
+		if(dbAccessService.signupCheckLoginID(form.getLoginID())) {
+			result.reject("errors.thereIsAlreadyLoginID");
+		}
+
+		if(result.hasErrors()) {
+			return "user/signup";
+		}
+
 		return "user/signupConf";
 	}
 
 	// 新規ユーザ登録画面の戻るボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/signup", params = "back_btn", method = RequestMethod.POST)
-	public String backToLoginPage() {
+	public String backToLoginPage(SessionStatus sessionStatus) {
+		sessionStatus.setComplete();
+
 		return "user/login";
 	}
 
 	// 新規ユーザ登録確認画面の登録ボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/signupConf", params = "reg_btn", method = RequestMethod.POST)
-	public String signup() {
+	public String signup(SignupUserInfoForm form, SessionStatus sessionStatus) {
+		UserInfo userInfo = new UserInfo();
+		BeanUtils.copyProperties(form, userInfo);
+		dbAccessService.signup(userInfo);
+
+		userInfoSessionBean.setUserID(dbAccessService.getLoginUserID(userInfo));
+
+		sessionStatus.setComplete();
+
 		return "redirect:/signupConf?finish";
 	}
 
