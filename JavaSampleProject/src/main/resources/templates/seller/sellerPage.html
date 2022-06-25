@@ -7,6 +7,23 @@
 	<body>
 		<h1><span th:text="#{label.sellerMenu}">販売者メニュー</span></h1>
 		<form th:action="@{/seller}" method="post">
+			<div th:unless="${productInfoList} and ${productInfoList.size()} > 0"><span th:text="#{label.noProduct}"></span></div>
+			<div th:if="${productInfoList} and ${productInfoList.size()} > 0">
+				<table>
+					<tr>
+						<th><span th:text="#{label.id}"></span></th>
+						<th><span th:text="#{label.productName}"></span></th>
+						<th><span th:text="#{label.stock}"></span></th>
+						<th><span th:text="#{label.reserve}"></span></th>
+					</tr>
+					<tr th:each="productInfoView : ${productInfoList}">
+						<td><span th:text="${productInfoView.id}"></span></td>
+						<td><span th:text="${productInfoView.name}"></span></td>
+						<td><span th:text="${productInfoView.stock}"></span></td>
+						<td><span th:text="${productInfoView.reserve}"></span></td>
+					</tr>
+				</table>
+			</div>
 			<input type="submit" name="backMenu_btn" th:value="#{label.backMenu}" />
 			<input type="submit" name="productRegister_btn" th:value="#{label.productRegister}" />
 			<input type="submit" name="productEdit_btn" th:value="#{label.productEdit}" />

@@ -1,9 +1,13 @@
 package com.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.domain.ProductInfo;
 import com.example.domain.UserInfo;
+import com.example.persistence.ProductManageMapper;
 import com.example.persistence.UserManageMapper;
 
 @Service
@@ -12,6 +16,7 @@ public class DBAccessService {
 	@Autowired
 	private UserManageMapper userManageMapper;
 
+	@Autowired ProductManageMapper productManageMapper;
 
 	/**
 	 * ログイン画面で入力された情報が正しいか判定するメソッド
@@ -91,6 +96,24 @@ public class DBAccessService {
 	 */
 	public void updateUserInfo(int id, UserInfo userInfo) {
 		userManageMapper.updateUserInfo(id, userInfo);
+	}
+
+	/**
+	 * ログインユーザの登録している商品の一覧を取得するメソッド
+	 * @param userID ログインユーザのID
+	 * @return ログインユーザの登録している商品情報が格納されているBean
+	 */
+	public List<ProductInfo> getProductInfoWithLoginUserID(int userID) {
+		return productManageMapper.getProductInfoWithLoginUserID(userID);
+	}
+
+	/**
+	 * 商品の予約数を取得するメソッド
+	 * @param id 商品のID
+	 * @return 予約数
+	 */
+	public int countReserve(int id) {
+		return productManageMapper.countReserve(id);
 	}
 
 }

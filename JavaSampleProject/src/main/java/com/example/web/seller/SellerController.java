@@ -1,15 +1,52 @@
 package com.example.web.seller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.example.domain.ProductInfo;
+import com.example.service.DBAccessService;
+import com.example.sessionBean.UserInfoSessionBean;
 
 @Controller
 public class SellerController {
 
+	@Autowired
+	private UserInfoSessionBean userInfoSessionBean;
+
+	@Autowired
+	private DBAccessService dbAccessService;
+
+	@Autowired
+	private MessageSource messageSource;
+
+
 	// メニュー画面の購入者メニューボタンが押下された時の処理メソッドのフォワード後の処理メソッド
 	@RequestMapping(value = "/sellerPage")
-	public String sellerPage() {
+	public String sellerPage(Model model) {
+		List<ProductInfo> productInfoList = dbAccessService.getProductInfoWithLoginUserID(userInfoSessionBean.getUserID());
+
+		List<ProductInfoListView> productInfoListViews = new ArrayList<>();
+		for(ProductInfo productInfo : productInfoList) {
+			ProductInfoListView productInfoListView = new ProductInfoListView();
+			BeanUtils.copyProperties(productInfo, productInfoListView);
+
+			int reserveCount = dbAccessService.countReserve(productInfo.getId());
+			productInfoListView.setReserve(reserveCount);
+
+
+			productInfoListViews.add(productInfoListView);
+		}
+
+		model.addAttribute("productInfoList", productInfoListViews);
+
 		return "seller/sellerPage";
 	}
 
