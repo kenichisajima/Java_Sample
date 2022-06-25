@@ -1,5 +1,7 @@
 package com.example.web.user;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,9 @@ public class UserController {
 
 	@Autowired
 	private DBAccessService dbAccessService;
+
+	@Autowired
+	private HttpSession session;
 
 	@ModelAttribute("loginUserInfoForm")
 	public LoginUserInfoForm setLoginUserInfoForm() {
@@ -154,6 +159,9 @@ public class UserController {
 	// メニューボタンのログアウトボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/menu", params = "logout_btn", method = RequestMethod.POST)
 	public String logout() {
+
+		session.invalidate();
+
 		return "user/login";
 	}
 
