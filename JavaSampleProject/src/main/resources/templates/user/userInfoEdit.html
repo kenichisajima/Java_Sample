@@ -6,7 +6,23 @@
 	</head>
 	<body>
 		<h1><span th:text="#{label.userInfoEdit}">ユーザ情報編集</span></h1>
-		<form th:action="@{/userInfoEdit}" method="post">
+		<p th:text="${editUserInfoMassage}"></p>
+		<form th:action="@{/userInfoEdit}" th:object="${editUserInfoForm}" method="post">
+			<p th:errors="*{all}" ></p>
+			<table>
+				<tr>
+					<td><span th:text="#{label.loginID}"></span></td>
+					<td><input type="text" th:field="*{loginID}" /></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{label.password}"></span></td>
+					<td><input type="password" th:field="*{password}" /></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{label.confPassword}"></span></td>
+					<td><input type="password" th:field="*{confPassword}" maxlength="10"/></td>
+				</tr>
+			</table>
 			<input type="submit" name="edit_btn" th:value="#{label.edit}" />
       		<input type="submit" name="menu_btn" th:value="#{label.menu}" />
     	</form>

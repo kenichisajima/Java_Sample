@@ -54,9 +54,43 @@ public class DBAccessService {
 
 	/**
 	 * ユーザ登録画面で入力画面で入力された情報をDBに登録するメソッド
+	 * @param userInfo ユーザ登録画面で入力された情報が格納されたBean
 	 */
 	public void signup(UserInfo userInfo) {
 		userManageMapper.signup(userInfo);
+	}
+
+	/**
+	 * ログインしているユーザのIDをもとにユーザ情報を取得するメソッド
+	 * @param id ログインユーザのID
+	 * @return ログインユーザの情報が格納されているBean
+	 */
+	public UserInfo getLoginUserInfo(int id) {
+		return userManageMapper.getLoginUserInfo(id);
+	}
+
+	/**
+	 * ログインユーザが変更しようとしているログインIDが現在のログインID以外で登録されているか判定するメソッド
+	 * @param id ログインユーザのID
+	 * @return 存在する場合true、存在しない場合はfalse
+	 */
+	public boolean checkUserLoginIDWithoutLoginUser(int id, String loginID) {
+		int count = userManageMapper.checkUserLoginIDWithoutLoginUser(id, loginID);
+
+		if(count == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * ログインユーザの情報を入力された情報で更新するメソッド
+	 * @param id ログインユーザのID
+	 * @param userInfo ユーザ情報編集画面で入力された情報が格納されたBean
+	 */
+	public void updateUserInfo(int id, UserInfo userInfo) {
+		userManageMapper.updateUserInfo(id, userInfo);
 	}
 
 }

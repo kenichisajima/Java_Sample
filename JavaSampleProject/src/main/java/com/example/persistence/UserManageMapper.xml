@@ -41,4 +41,34 @@
 		VALUES
 			(#{loginID}, #{password})
 	</insert>
+
+	<select id="getLoginUserInfo" resultType="com.example.domain.UserInfo">
+		SELECT
+			login_id, password
+		FROM
+			user
+		WHERE
+			id = #{id}
+	</select>
+
+	<select id="checkUserLoginIDWithoutLoginUser" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			user
+		WHERE
+			id != #{id}
+		AND
+			login_id = #{loginID}
+	</select>
+
+	<update id="updateUserInfo">
+		UPDATE
+			user
+		SET
+			login_id = #{userInfo.loginID},
+			password = #{userInfo.password}
+		WHERE
+			id = #{id}
+		</update>
 </mapper>
