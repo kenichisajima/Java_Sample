@@ -15,12 +15,14 @@
 						<th><span th:text="#{label.productName}"></span></th>
 						<th><span th:text="#{label.stock}"></span></th>
 						<th><span th:text="#{label.reserve}"></span></th>
+						<th><span th:text="#{label.remaining}"></span></th>
 					</tr>
 					<tr th:each="productInfoView : ${productInfoList}">
-						<td><span th:text="${productInfoView.id}"></span></td>
+						<td><input type="radio"  name="id" th:value="${productInfoView.id}"/></td>
 						<td><span th:text="${productInfoView.name}"></span></td>
 						<td><span th:text="${productInfoView.stock}"></span></td>
 						<td><span th:text="${productInfoView.reserve}"></span></td>
+						<td><span th:text="${productInfoView.stock} - ${productInfoView.reserve}"></span></td>
 					</tr>
 				</table>
 			</div>
