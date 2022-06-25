@@ -2,6 +2,7 @@ package com.example.web.seller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.domain.ProductInfo;
 import com.example.service.DBAccessService;
@@ -78,7 +80,7 @@ public class SellerController {
 
 	// 商品登録画面の登録ボタンが押下された時の処理メソッド
 	@RequestMapping(value = "/productRegister", params = "register_btn", method = RequestMethod.POST)
-	public String productRegister(@Validated RegisterProductForm form, BindingResult result) {
+	public String productRegister(@Validated RegisterProductForm form, BindingResult result, RedirectAttributes redirectAttributes, Locale locale) {
 
 		if (result.hasErrors()) {
 			return "seller/productRegister";
@@ -88,6 +90,8 @@ public class SellerController {
 		BeanUtils.copyProperties(form, productInfo);
 		productInfo.setUserID(userInfoSessionBean.getUserID());
 		dbAccessService.registerProduct(productInfo);
+
+		redirectAttributes.addFlashAttribute("registerProductMessage", messageSource.getMessage("message.registerProduct", null, locale));
 
 		return "redirect:/productRegister?finish";
 	}
