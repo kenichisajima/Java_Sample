@@ -20,4 +20,10 @@ public interface ProductManageMapper {
 	 */
 	public int countReserve(int id);
 
+	/**
+	 * 商品情報を登録するメソッド
+	 * @param productInfo 登録する商品情報が格納されたBean
+	 */
+	public void registerProduct(ProductInfo productInfo);
+
 }

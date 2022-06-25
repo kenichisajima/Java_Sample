@@ -116,4 +116,12 @@ public class DBAccessService {
 		return productManageMapper.countReserve(id);
 	}
 
+	/**
+	 * 商品情報を登録するメソッド
+	 * @param productInfo 登録する商品情報が格納されたBean
+	 */
+	public void registerProduct(ProductInfo productInfo) {
+		productManageMapper.registerProduct(productInfo);
+	}
+
 }

@@ -6,7 +6,22 @@
 	</head>
 	<body>
 		<h1><span th:text="#{label.productRegister}">商品登録</span></h1>
-		<form th:action="@{/productRegister}" method="post">
+		<form th:action="@{/productRegister}" th:object="${registerProductForm}" method="post">
+			<p th:errors="*{all}" ></p>
+			<table>
+				<tr>
+					<td><span th:text="#{label.productName}"></span></td>
+					<td><input type="text" th:field="*{name}" /></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{label.stock}"></span></td>
+					<td><input type="number" th:field="*{stock}"/></td>
+				</tr>
+				<tr>
+					<td><span th:text="#{label.remarks}"></span></td>
+					<td><input type="text" th:field="*{remarks}"/></td>
+				</tr>
+			</table>
 			<input type="submit" name="back_btn" th:value="#{label.back}" />
 			<input type="submit" name="register_btn" th:value="#{label.reg}" />
     	</form>

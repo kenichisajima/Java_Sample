@@ -23,4 +23,11 @@
 			product_id = #{id}
 	</select>
 
+	<insert id="registerProduct">
+		INSERT INTO
+			product (user_id, name, stock, remarks)
+		VALUES
+			(#{userID}, #{name}, #{stock}, #{remarks})
+	</insert>
+
 </mapper>
